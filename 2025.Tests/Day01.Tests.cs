@@ -1,4 +1,5 @@
 ﻿using AdventOfCode2025.Days;
+using Xunit.Abstractions;
 
 namespace AdventOfCode2025.Tests;
 
@@ -46,5 +47,32 @@ L82";
 
         // Assert
         Assert.Equal(6, result);
+    }
+
+    [Fact]
+    public void Part2_MoveMoreThan100InOneInstruction_ReturnsExpectedResult()
+    {
+        // Arrange
+        string input = @"R150";
+
+        // Act
+        int result = Day01.Part2(input);
+
+        // Assert
+        Assert.Equal(2, result);
+    }
+
+    [Fact]
+    public void Part2_MoveLeftWithin100InTwoInstructions_ReturnsExpectedResult()
+    {
+        // Arrange
+        string input = @"L54
+L49";
+
+        // Act
+        int result = Day01.Part2(input);
+
+        // Assert
+        Assert.Equal(1, result);
     }
 }

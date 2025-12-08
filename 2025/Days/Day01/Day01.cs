@@ -38,36 +38,34 @@ public static class Day01
     public static int Part2(string input)
     {
         var password = 0;
-        var start = 50;
-        var previouslyPositive = true;
-        var previouslyZero = false;
+        var current = 50;
         foreach (var line in input.Split('\n', StringSplitOptions.RemoveEmptyEntries))
         {
+            var previous = current;
             var change = int.Parse(line[1..]);
+            if (int.Abs(change) > 100)
+            {
+                password += int.Abs(change / 100);
+                change = (change % 100);
+            }
             if (line.StartsWith('R'))
             {
-                start += change;
+                current += change;
             }
             else if (line.StartsWith('L'))
             {
-                start -= change;
+                current -= change;
             }
 
-            if (start % 100 == 0 || (!previouslyZero && start > 0 != previouslyPositive))
+            if (current % 100 == 0 ||
+                current >= 100 ||
+                current <= -100 ||
+                (previous > 0 && current < 0) ||
+                (previous < 0 && current > 0))
             {
                 password++;
             }
-            else if (start > 100 && start / 100 > 0)
-            {
-                password += start / 100;
-            }
-            else if (start < -100 && start / -100 > 0)
-            {
-                password += start / -100;
-            }
-            start %= 100;
-            previouslyPositive = start > 0;
-            previouslyZero = start == 0;
+            Console.WriteLine($"{line.TrimEnd()}: {previous} -> {current}, password: {password}");
         }
         return password;
     }
