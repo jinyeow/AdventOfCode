@@ -43,11 +43,13 @@ public static class Day01
         {
             var previous = current;
             var change = int.Parse(line[1..]);
+
             if (int.Abs(change) > 100)
             {
                 password += int.Abs(change / 100);
                 change = (change % 100);
             }
+
             if (line.StartsWith('R'))
             {
                 current += change;
@@ -65,7 +67,8 @@ public static class Day01
             {
                 password++;
             }
-            Console.WriteLine($"{line.TrimEnd()}: {previous} -> {current}, password: {password}");
+
+            current %= 100;
         }
         return password;
     }
