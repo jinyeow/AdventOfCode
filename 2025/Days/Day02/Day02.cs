@@ -47,6 +47,12 @@ public static class Day02
         return ((firstHalf * factor) + firstHalf);
     }
 
+    public static long GetFirstHalf(long number, int halfLength)
+    {
+        var numberString = number.ToString();
+        return long.Parse(numberString[0..halfLength]);
+    }
+
     // private static int SumInvalidIDsInRange(int start, int end)
     // {
     //     if (start > end)

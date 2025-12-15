@@ -89,4 +89,28 @@ public class Day02Tests
     {
         Assert.Equal(1188511885, Day02.ConstructInvalidNumber(11885));
     }
+
+    [Fact]
+    public void GetFirstHalf_1010_2_Returns10()
+    {
+        Assert.Equal(10, Day02.GetFirstHalf(1010, 2));
+    }
+
+    [Fact]
+    public void GetFirstHalf_123123_3_Returns123()
+    {
+        Assert.Equal(123, Day02.GetFirstHalf(123123, 3));
+    }
+
+    [Fact]
+    public void GetFirstHalf_1188511885_5_Returns11885()
+    {
+        Assert.Equal(11885, Day02.GetFirstHalf(1188511885, 5));
+    }
+
+    [Fact]
+    public void GetFirstHalf_99_1_Returns9()
+    {
+        Assert.Equal(9, Day02.GetFirstHalf(99, 1));
+    }
 }
