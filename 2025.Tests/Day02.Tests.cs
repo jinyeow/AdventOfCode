@@ -113,4 +113,28 @@ public class Day02Tests
     {
         Assert.Equal(9, Day02.GetFirstHalf(99, 1));
     }
+
+    [Fact]
+    public void SplitIntoEvenLengthRanges_99_1050_Returns()
+    {
+        Assert.Equal([(99,99), (1000, 1050)], Day02.SplitIntoEvenLengthRanges(99, 1050));
+    }
+
+    [Fact]
+    public void SplitIntoEvenLengthRanges_100_999_Returns()
+    {
+        Assert.Equal([], Day02.SplitIntoEvenLengthRanges(100, 999));
+    }
+
+    [Fact]
+    public void SplitIntoEvenLengthRanges_1010_2020_Returns()
+    {
+        Assert.Equal([(1010, 2020)], Day02.SplitIntoEvenLengthRanges(1010, 2020));
+    }
+
+    [Fact]
+    public void SplitIntoEvenLengthRanges_1050_99_Returns()
+    {
+        Assert.Equal([], Day02.SplitIntoEvenLengthRanges(1050, 99));
+    }
 }

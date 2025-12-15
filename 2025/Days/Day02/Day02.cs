@@ -1,5 +1,7 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Transactions;
 
 namespace AdventOfCode2025.Days;
 
@@ -51,6 +53,30 @@ public static class Day02
     {
         var numberString = number.ToString();
         return long.Parse(numberString[0..halfLength]);
+    }
+
+    public static List<(long start, long end)> SplitIntoEvenLengthRanges(long start, long end)
+    {
+        var subRanges = new List<(long, long)>();
+        var current = start;
+
+        while (current <= end)
+        {
+            var currentLength = current.ToString().Length;
+
+            if (currentLength % 2 != 0)
+            {
+                current = (long)Math.Pow(10, currentLength + 1);
+                continue;
+            }
+
+            var subRangeEnd = (long)Math.Min(end, Math.Pow(10, currentLength) - 1);
+            subRanges.Add((current, subRangeEnd));
+
+            current = (long)Math.Pow(10, currentLength + 1);
+        }
+
+        return subRanges;
     }
 
     // private static int SumInvalidIDsInRange(int start, int end)
