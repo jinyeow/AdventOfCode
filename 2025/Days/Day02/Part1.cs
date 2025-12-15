@@ -3,19 +3,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Transactions;
 
-namespace AdventOfCode2025.Days;
+namespace AdventOfCode2025.Days.Day02;
 
-public static class Day02
+public static class Part1
 {
     public static void Solve()
     {
         var input = File.ReadAllText("Inputs/Day02/day02.txt");
 
-        Console.WriteLine($"Part 1: {Part1(input)}");
-        Console.WriteLine($"Part 2: {Part2(input)}");
+        Console.WriteLine($"Part 1: {Solution(input)}");
     }
 
-    public static long Part1(string input)
+    public static long Solution(string input)
     {
         var total = (long)0;
         var ranges = input.Split(",");
@@ -32,7 +31,8 @@ public static class Day02
     public static long Part2(string input)
     {
         // TODO
-        return 0;
+        var total = (long)0;
+        return total;
     }
 
     public static bool IsInvalidNumber(long number)
