@@ -28,19 +28,22 @@ public static class Part2
         return total;
     }
 
-    public static bool IsInvalidNumber(long number)
+    public static bool IsInvalidNumber(long number, int patternLength)
     {
         var numberString = number.ToString();
-        if (numberString.Length % 2 != 0)
+        if (numberString.Length % patternLength != 0)
         {
             return false;
         }
 
-        var halfLength = numberString.Length / 2;
-        var firstHalf = numberString[..halfLength];
-        var secondHalf = numberString[halfLength..];
+        var pattern = numberString[..patternLength];
+        var fullPattern = $"{pattern}";
+        for (var repetition = 0; repetition < patternLength; repetition++)
+        {
+            fullPattern += $"{pattern}";
+        }
 
-        return firstHalf == secondHalf;
+        return long.Parse(fullPattern) == number;
     }
 
     public static long ConstructInvalidNumber(long firstHalf)
@@ -56,7 +59,7 @@ public static class Part2
         return long.Parse(numberString[0..halfLength]);
     }
 
-    public static List<(long start, long end)> SplitIntoEvenLengthRanges(long start, long end)
+    public static List<(long start, long end)> SplitIntoRanges(long start, long end)
     {
         var subRanges = new List<(long, long)>();
         var current = start;
@@ -65,16 +68,10 @@ public static class Part2
         {
             var currentLength = current.ToString().Length;
 
-            if (currentLength % 2 != 0)
-            {
-                current = (long)Math.Pow(10, currentLength);
-                continue;
-            }
-
             var subRangeEnd = (long)Math.Min(end, Math.Pow(10, currentLength) - 1);
             subRanges.Add((current, subRangeEnd));
 
-            current = (long)Math.Pow(10, currentLength + 1);
+            current = (long)Math.Pow(10, currentLength);
         }
 
         return subRanges;
@@ -88,7 +85,7 @@ public static class Part2
         }
 
         var sum = (long)0;
-        var subRanges = SplitIntoEvenLengthRanges(start, end);
+        var subRanges = SplitIntoRanges(start, end);
 
         foreach (var (subStart, subEnd) in subRanges)
         {
