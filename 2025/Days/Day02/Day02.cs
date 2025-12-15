@@ -29,7 +29,7 @@ public static class Day02
         return total;
     }
 
-    public static int Part2(string input)
+    public static long Part2(string input)
     {
         // TODO
         return 0;
