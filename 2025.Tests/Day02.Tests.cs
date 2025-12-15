@@ -29,4 +29,64 @@ public class Day02Tests
 
         // Assert
     }
+
+    [Fact]
+    public void IsInvalidNumber_55_ReturnsTrue()
+    {
+        Assert.True(Day02.IsInvalidNumber(55));
+    }
+
+    [Fact]
+    public void IsInvalidNumber_6464_ReturnsTrue()
+    {
+        Assert.True(Day02.IsInvalidNumber(6464));
+    }
+
+    [Fact]
+    public void IsInvalidNumber_123123_ReturnsTrue()
+    {
+        Assert.True(Day02.IsInvalidNumber(123123));
+    }
+
+    [Fact]
+    public void IsInvalidNumber_101_ReturnsFalse()
+    {
+        Assert.False(Day02.IsInvalidNumber(101));
+    }
+
+    [Fact]
+    public void IsInvalidNumber_1234_ReturnsFalse()
+    {
+        Assert.False(Day02.IsInvalidNumber(1234));
+    }
+
+    [Fact]
+    public void IsInvalidNumber_11_ReturnsTrue()
+    {
+        Assert.True(Day02.IsInvalidNumber(11));
+    }
+
+    [Fact]
+    public void ConstructInvalidNumber_5_Returns55()
+    {
+        Assert.Equal(55, Day02.ConstructInvalidNumber(5));
+    }
+
+    [Fact]
+    public void ConstructInvalidNumber_64_Returns6464()
+    {
+        Assert.Equal(6464, Day02.ConstructInvalidNumber(64));
+    }
+
+    [Fact]
+    public void ConstructInvalidNumber_123_Returns123123()
+    {
+        Assert.Equal(123123, Day02.ConstructInvalidNumber(123));
+    }
+
+    [Fact]
+    public void ConstructInvalidNumber_11885_Returns1188511885()
+    {
+        Assert.Equal(1188511885, Day02.ConstructInvalidNumber(11885));
+    }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Globalization;
 
 namespace AdventOfCode2025.Days;
 
@@ -15,38 +16,68 @@ public static class Day02
     public static int Part1(string input)
     {
         var total = 0;
-        var line = input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        var ranges = line.Split(',');
-
-        foreach (var (firstValue, lastValue) in ranges.Split('-'))
-        {
-            var start = int.Parse(firstValue);
-            var end = int.Parse(lastValue);
-
-            if (firstValue.length % 2 == 0)
-            {
-                var sequenceLength = firstValue.length / 2;
-            }
-            else if (lastValue.length % 2 != 0)
-            {
-                var sequenceLength = lastValue.length / 2;
-            }
-            else
-            {
-                continue;
-            }
-
-            // check if the last sequenceLength digits of the lastValue are smaller than the first sequenceLength digits of the firstValue
-            // if not, continue
-            // find all the numbers where the first sL == last sL digits
-
-            var invalidId = 0;
-            total += invalidId;
-        }
+        return total;
     }
 
     public static int Part2(string input)
     {
         // TODO
+        return 0;
+    }
+
+    public static bool IsInvalidNumber(long number)
+    {
+        var numberString = number.ToString();
+        if (numberString.Length % 2 != 0)
+        {
+            return false;
+        }
+
+        var halfLength = numberString.Length / 2;
+        var firstHalf = numberString[..halfLength];
+        var secondHalf = numberString[halfLength..];
+
+        return firstHalf == secondHalf;
+    }
+
+    public static long ConstructInvalidNumber(long firstHalf)
+    {
+        var length = firstHalf.ToString().Length;
+        var factor = (long)Math.Pow(10, length);
+        return ((firstHalf * factor) + firstHalf);
+    }
+
+    // private static int SumInvalidIDsInRange(int start, int end)
+    // {
+    //     if (start > end)
+    //     {
+    //         return 0;
+    //     }
+
+    //     var sum = 0;
+    //     var subRanges = SplitIntoValidRanges(start, end);
+
+    //     foreach (var (subStart, subEnd) in subRanges)
+    //     {
+    //         var digitCount = subStart.toString().length;
+    //         var halfLength = digitCount / 2;
+    //         var minFirstHalf = GetFirstHalf(subStart, halfLength);
+    //         var maxFirstHalf = GetFirstHalf(subEnd, halfLength);
+
+    //         for (var firstHalf = minFirstHalf; firstHalf <= maxFirstHalf; firstHalf++)
+    //         {
+    //             var invalidNumber = ConstructInvalidNumber(firstHalf);
+    //             if (invalidNumber >= subStart && invalidNumber <= subEnd)
+    //             {
+    //                 sum += invalidNumber;
+    //             }
+    //         }
+    //     }
+    //     return sum;
+    // }
+
+    private static int GetFirstHalf(int number, int length)
+    {
+        return int.Parse(number.ToString()[..length]);
     }
 }
