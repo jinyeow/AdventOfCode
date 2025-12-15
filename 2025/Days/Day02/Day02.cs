@@ -15,9 +15,17 @@ public static class Day02
         Console.WriteLine($"Part 2: {Part2(input)}");
     }
 
-    public static int Part1(string input)
+    public static long Part1(string input)
     {
-        var total = 0;
+        var total = (long)0;
+        var ranges = input.Split(",");
+        foreach (var range in ranges)
+        {
+            var parts = range.Split("-");
+            var start = long.Parse(parts[0]);
+            var end = long.Parse(parts[1]);
+            total += SumInvalidIDsInRange(start, end);
+        }
         return total;
     }
 
@@ -66,7 +74,7 @@ public static class Day02
 
             if (currentLength % 2 != 0)
             {
-                current = (long)Math.Pow(10, currentLength + 1);
+                current = (long)Math.Pow(10, currentLength);
                 continue;
             }
 
@@ -79,37 +87,32 @@ public static class Day02
         return subRanges;
     }
 
-    // private static int SumInvalidIDsInRange(int start, int end)
-    // {
-    //     if (start > end)
-    //     {
-    //         return 0;
-    //     }
-
-    //     var sum = 0;
-    //     var subRanges = SplitIntoValidRanges(start, end);
-
-    //     foreach (var (subStart, subEnd) in subRanges)
-    //     {
-    //         var digitCount = subStart.toString().length;
-    //         var halfLength = digitCount / 2;
-    //         var minFirstHalf = GetFirstHalf(subStart, halfLength);
-    //         var maxFirstHalf = GetFirstHalf(subEnd, halfLength);
-
-    //         for (var firstHalf = minFirstHalf; firstHalf <= maxFirstHalf; firstHalf++)
-    //         {
-    //             var invalidNumber = ConstructInvalidNumber(firstHalf);
-    //             if (invalidNumber >= subStart && invalidNumber <= subEnd)
-    //             {
-    //                 sum += invalidNumber;
-    //             }
-    //         }
-    //     }
-    //     return sum;
-    // }
-
-    private static int GetFirstHalf(int number, int length)
+    public static long SumInvalidIDsInRange(long start, long end)
     {
-        return int.Parse(number.ToString()[..length]);
+        if (start > end)
+        {
+            return 0;
+        }
+
+        var sum = (long)0;
+        var subRanges = SplitIntoEvenLengthRanges(start, end);
+
+        foreach (var (subStart, subEnd) in subRanges)
+        {
+            var digitCount = subStart.ToString().Length;
+            var halfLength = digitCount / 2;
+            var minFirstHalf = GetFirstHalf(subStart, halfLength);
+            var maxFirstHalf = GetFirstHalf(subEnd, halfLength);
+
+            for (var firstHalf = minFirstHalf; firstHalf <= maxFirstHalf; firstHalf++)
+            {
+                var invalidNumber = ConstructInvalidNumber(firstHalf);
+                if (invalidNumber >= subStart && invalidNumber <= subEnd)
+                {
+                    sum += invalidNumber;
+                }
+            }
+        }
+        return sum;
     }
 }

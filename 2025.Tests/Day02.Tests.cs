@@ -9,10 +9,10 @@ public class Day02Tests
     public void Part1_WithExampleInput_ReturnsExpectedResult()
     {
         // Arrange
-        string input = @"11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124";
+        var input = @"11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124";
 
         // Act
-        int result = Day02.Part1(input);
+        var result = Day02.Part1(input);
 
         // Assert
         Assert.Equal(1227775554, result);
@@ -22,10 +22,10 @@ public class Day02Tests
     public void Part2_WithExampleInput_ReturnsExpectedResult()
     {
         // Arrange
-        string input = @"";
+        var input = @"";
 
         // Act
-        int result = Day02.Part2(input);
+        var result = Day02.Part2(input);
 
         // Assert
     }
@@ -136,5 +136,23 @@ public class Day02Tests
     public void SplitIntoEvenLengthRanges_1050_99_Returns()
     {
         Assert.Equal([], Day02.SplitIntoEvenLengthRanges(1050, 99));
+    }
+
+    [Fact]
+    public void SumInvalidIdsInRange_11_22_Returns33()
+    {
+        Assert.Equal(33, Day02.SumInvalidIDsInRange(11, 22));
+    }
+
+    [Fact]
+    public void SumInvalidIdsInRange_95_115_Returns99()
+    {
+        Assert.Equal(99, Day02.SumInvalidIDsInRange(95, 115));
+    }
+
+    [Fact]
+    public void SumInvalidIdsInRange_998_1012_Returns1010()
+    {
+        Assert.Equal(1010, Day02.SumInvalidIDsInRange(998, 1012));
     }
 }
