@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Transactions;
 
 namespace AdventOfCode2025.Days.Day02;
@@ -16,93 +17,49 @@ public static class Part2
 
     public static long Solution(string input)
     {
-        var total = (long)0;
+        var candidates = new HashSet<long>();
         var ranges = input.Split(",");
         foreach (var range in ranges)
         {
             var parts = range.Split("-");
             var start = long.Parse(parts[0]);
             var end = long.Parse(parts[1]);
-            total += SumInvalidIDsInRange(start, end);
-        }
-        return total;
-    }
+            var maxTotalDigits = parts[1].Length;
 
-    public static bool IsInvalidNumber(long number, int patternLength)
-    {
-        var numberString = number.ToString();
-        if (numberString.Length % patternLength != 0)
-        {
-            return false;
-        }
-
-        var pattern = numberString[..patternLength];
-        var fullPattern = $"{pattern}";
-        for (var repetition = 0; repetition < patternLength; repetition++)
-        {
-            fullPattern += $"{pattern}";
-        }
-
-        return long.Parse(fullPattern) == number;
-    }
-
-    public static long ConstructInvalidNumber(long firstHalf)
-    {
-        var length = firstHalf.ToString().Length;
-        var factor = (long)Math.Pow(10, length);
-        return ((firstHalf * factor) + firstHalf);
-    }
-
-    public static long GetFirstHalf(long number, int halfLength)
-    {
-        var numberString = number.ToString();
-        return long.Parse(numberString[0..halfLength]);
-    }
-
-    public static List<(long start, long end)> SplitIntoRanges(long start, long end)
-    {
-        var subRanges = new List<(long, long)>();
-        var current = start;
-
-        while (current <= end)
-        {
-            var currentLength = current.ToString().Length;
-
-            var subRangeEnd = (long)Math.Min(end, Math.Pow(10, currentLength) - 1);
-            subRanges.Add((current, subRangeEnd));
-
-            current = (long)Math.Pow(10, currentLength);
-        }
-
-        return subRanges;
-    }
-
-    public static long SumInvalidIDsInRange(long start, long end)
-    {
-        if (start > end)
-        {
-            return 0;
-        }
-
-        var sum = (long)0;
-        var subRanges = SplitIntoRanges(start, end);
-
-        foreach (var (subStart, subEnd) in subRanges)
-        {
-            var digitCount = subStart.ToString().Length;
-            var halfLength = digitCount / 2;
-            var minFirstHalf = GetFirstHalf(subStart, halfLength);
-            var maxFirstHalf = GetFirstHalf(subEnd, halfLength);
-
-            for (var firstHalf = minFirstHalf; firstHalf <= maxFirstHalf; firstHalf++)
+            for (var patternLength = 1; patternLength <= maxTotalDigits; patternLength++)
             {
-                var invalidNumber = ConstructInvalidNumber(firstHalf);
-                if (invalidNumber >= subStart && invalidNumber <= subEnd)
+                for (var repetition = 2; repetition <= maxTotalDigits / patternLength; repetition++)
                 {
-                    sum += invalidNumber;
+                    var f = (long)(Math.Pow(10, patternLength * repetition) - 1)/(Math.Pow(10, patternLength) - 1);
+                    if (f > end)
+                    {
+                        continue;
+                    }
+
+                    var minimumPattern = (long)Math.Pow(10, patternLength - 1);
+                    var maximumPattern = (long)Math.Pow(10, patternLength) - 1;
+
+                    // lower <= n <= upper; where n = k * f
+                    // So, lower/f <= k <= upper/f
+                    var minimumPatternInRange = Math.Max(Math.Ceiling(start/f), minimumPattern);
+                    var maximumPatternInRange = Math.Min(Math.Floor(end/f), maximumPattern);
+
+                    if (minimumPatternInRange > maximumPatternInRange)
+                    {
+                        continue;
+                    }
+
+                    for (var pattern = minimumPatternInRange; pattern <= maximumPatternInRange; pattern++)
+                    {
+                        var invalidNumber = (long)pattern * f;
+                        if (invalidNumber >= start && invalidNumber <= end)
+                        {
+                            candidates.Add((long)invalidNumber);
+                        }
+                    }
                 }
             }
         }
-        return sum;
+        return candidates.Sum();
     }
 }
